@@ -6,11 +6,10 @@ baseurl:            ""
 url:                "https://evan-hwang.github.io"
 
 # Social Profiles
-twitter_username:   SBootstrap
 github_username:    evan-hwang
-facebook_username:  황혁진
+facebook_username:  id19921992
 instagram_username: evanhwang_ 
-linkedin_username:
+# linkedin_username:
 
 # Add your google-analytics ID here to activate google analytics
 google_analytics:   UA-XXXXXXXXX-X # out your google-analytics code
