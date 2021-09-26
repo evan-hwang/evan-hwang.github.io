@@ -2,8 +2,8 @@ title:              Clean Blog
 email:              id920809@naver.com
 description:        A Blog Theme by Start Bootstrap
 author:             evan-hwang
-baseurl:            "/startbootstrap-clean-blog-jekyll"
-url:                "https://startbootstrap.github.io"
+baseurl:            ""
+url:                "https://evan-hwang.github.io"
 
 # Social Profiles
 twitter_username:   SBootstrap
