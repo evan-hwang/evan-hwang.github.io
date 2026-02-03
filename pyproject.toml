@@ -1,0 +1,35 @@
+[project]
+name = "recoblog"
+version = "0.1.0"
+description = "Claude Code 대화 기록 자동 블로그 게시 시스템"
+requires-python = ">=3.10"
+readme = "README.md"
+
+dependencies = [
+    "anthropic>=0.40.0",
+    "python-dateutil>=2.8.2",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+recoblog-publish = "scripts.publish:main"
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

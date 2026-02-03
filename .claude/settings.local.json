@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(python3:*)",
+      "Bash(head:*)",
+      "Bash(du:*)",
+      "Bash(pip3:*)",
+      "Bash(node --version)",
+      "Bash(ruby:*)",
+      "Bash(gem:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(chmod:*)",
+      "Bash(pip install:*)",
+      "Bash(source .venv/bin/activate:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial setup: Claude Code daily learning blog\n\n- Jekyll blog with Just the Docs theme\n- Python scripts for conversation collection and AI summarization\n- Slash commands for manual publishing (/publish-today, /publish-preview)\n- GitHub Actions workflow for Pages deployment\n- LaunchAgent configuration for daily automation\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
