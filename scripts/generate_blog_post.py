@@ -4,9 +4,31 @@ OpenAI 호환 API를 사용하여 대화 내용을 블로그 글로 변환하는
 """
 
 import os
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+
+
+def normalize_unicode(text: str) -> str:
+    """유니코드 특수 문자를 표준 ASCII로 변환"""
+    replacements = {
+        '\u2011': '-',  # NON-BREAKING HYPHEN
+        '\u2010': '-',  # HYPHEN
+        '\u2012': '-',  # FIGURE DASH
+        '\u2013': '-',  # EN DASH
+        '\u2014': '-',  # EM DASH
+        '\u2015': '-',  # HORIZONTAL BAR
+        '\u2018': "'",  # LEFT SINGLE QUOTATION
+        '\u2019': "'",  # RIGHT SINGLE QUOTATION
+        '\u201C': '"',  # LEFT DOUBLE QUOTATION
+        '\u201D': '"',  # RIGHT DOUBLE QUOTATION
+        '\u2026': '...',  # HORIZONTAL ELLIPSIS
+        '\u00A0': ' ',  # NO-BREAK SPACE
+    }
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    return text
 
 try:
     from openai import OpenAI
@@ -119,7 +141,8 @@ nav_order: 1
             messages=[{"role": "user", "content": prompt}]
         )
 
-        return response.choices[0].message.content
+        content = response.choices[0].message.content
+        return normalize_unicode(content)
 
     def generate_title_and_tags(
         self,

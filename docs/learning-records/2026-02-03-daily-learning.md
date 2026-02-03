@@ -5,9 +5,9 @@ parent: 학습 기록
 nav_order: 1
 ---
 
-# 2026‑02‑03 일일 학습 기록
+# 2026-02-03 일일 학습 기록
 
-오늘은 **Claude Code**의 대화 기록 저장 메커니즘을 파악하고, Jekyll + Just the Docs 테마 기반 블로그 자동 게시 시스템을 설계했으며, `pd-disaggregation`, `gpu‑cli` 두 프로젝트를 탐색했습니다. 아래에서는 작업을 **주제별**로 정리하고, 핵심 개념·배운 점을 요약합니다.
+오늘은 **Claude Code**의 대화 기록 저장 메커니즘을 파악하고, Jekyll + Just the Docs 테마 기반 블로그 자동 게시 시스템을 설계했으며, `pd-disaggregation`, `gpu-cli` 두 프로젝트를 탐색했습니다. 아래에서는 작업을 **주제별**로 정리하고, 핵심 개념·배운 점을 요약합니다.
 
 ---  
 
@@ -16,12 +16,12 @@ nav_order: 1
 ### 핵심 개념
 | 구분 | 경로 | 주요 파일 | 파일 형식 | 비고 |
 |------|------|-----------|-----------|------|
-| **전역 히스토리** | `~/.claude/history.jsonl` | ‑ | JSONL (줄마다 독립 JSON) | 전체 대화 시퀀스 |
-| **프로젝트별** | `~/.claude/projects/{encoded‑path}/` | `agent-{agentId}.jsonl`, `{sessionId}.jsonl` | JSONL | 프로젝트‑별 세션·에이전트 기록 |
-| **트랜스크립트** | `~/.claude/transcripts/` | ‑ | JSONL | 텍스트 전사 |
-| **파일 히스토리** | `~/.claude/file-history/` | ‑ | JSONL | 파일 변동 내역 |
+| **전역 히스토리** | `~/.claude/history.jsonl` | - | JSONL (줄마다 독립 JSON) | 전체 대화 시퀀스 |
+| **프로젝트별** | `~/.claude/projects/{encoded-path}/` | `agent-{agentId}.jsonl`, `{sessionId}.jsonl` | JSONL | 프로젝트-별 세션·에이전트 기록 |
+| **트랜스크립트** | `~/.claude/transcripts/` | - | JSONL | 텍스트 전사 |
+| **파일 히스토리** | `~/.claude/file-history/` | - | JSONL | 파일 변동 내역 |
 | **TODO 리스트** | `~/.claude/todos/` | `*.json` | JSON | 작업 관리 |
-| **셸 스냅샷** | `~/.claude/shell‑snapshots/` | ‑ | binary / 텍스트 | 쉘 환경 캡쳐 |
+| **셸 스냅샷** | `~/.claude/shell-snapshots/` | - | binary / 텍스트 | 쉘 환경 캡쳐 |
 
 ### 주요 JSONL 샘플  
 
@@ -37,7 +37,7 @@ nav_order: 1
 }
 ```
 
-*프로젝트‑agent 파일*  
+*프로젝트-agent 파일*  
 
 ```json
 {
@@ -61,7 +61,7 @@ nav_order: 1
 ### 배운 점
 - **JSONL**은 라인 단위 파싱이 가능해 대용량 로그를 스트리밍 처리하기에 최적.  
 - `project` 필드는 절대 경로를 그대로 저장해, 여러 프로젝트를 구분하는데 활용 가능.  
-- `sessionId`‑`agentId` 조합으로 **하위 세션(사이드체인)**을 구분할 수 있다.  
+- `sessionId`-`agentId` 조합으로 **하위 세션(사이드체인)**을 구분할 수 있다.  
 
 ---  
 
@@ -209,7 +209,7 @@ if __name__ == "__main__":
 
 ### 배운 점
 - **슬래시 커맨드**는 Claude Code에 명령형 인터페이스를 제공해, 한 줄 호출로 전체 파이프라인을 트리거한다.  
-- `OpenAI`‑compatible 클라이언트를 이용해 **Claude API**에 요약 요청을 보낼 수 있다 (키는 `CLAUDE_API_KEY`).  
+- `OpenAI`-compatible 클라이언트를 이용해 **Claude API**에 요약 요청을 보낼 수 있다 (키는 `CLAUDE_API_KEY`).  
 - `frontmatter` 파이썬 패키지는 YAML 헤더를 손쉽게 삽입·수정하게 해준다.  
 
 ---  
@@ -278,7 +278,7 @@ git push origin main
 **핵심 포인트**  
 - Claude 모델은 **컨텍스트 길이 제한**이 있기에, 하루 전체 로그를 한 번에 보내면 토큰 초과가 발생한다.  
   → **시간대별** 혹은 **topic 별**로 나눠서 요약을 여러 차례 호출한다.  
-- `system` 프롬트를 활용해 *“다음 대화 기록을 주제별로 정리해 주세요.”* 와 같이 **구조화된 출력**을 강제할 수 있다.  
+- `system` 프롬트를 활용해 *"다음 대화 기록을 주제별로 정리해 주세요."* 와 같이 **구조화된 출력**을 강제할 수 있다.  
 
 ---  
 
@@ -289,22 +289,22 @@ git push origin main
 | 탐색 내용 | 핵심 포인트 |
 |----------|-------------|
 | 레포 구조 확인 | `src/`, `benchmarks/`, `docs/` 디렉터리 존재 |
-| 주요 프레임워크 | vLLM, SGLang, llm‑d (reference) |
+| 주요 프레임워크 | vLLM, SGLang, llm-d (reference) |
 | 환경 제약 | **읽기 전용**(파일 생성·수정 금지) |
-| 목표 | 프리필‑디코드 단계 분리 성능 검증 (AWS EFA) |
+| 목표 | 프리필-디코드 단계 분리 성능 검증 (AWS EFA) |
 
-> **배운 점** – 대형 LLM 벤치마크를 **프리필/디코드** 단계별로 측정하려면, `vllm` 의 `PrefillEngine` 과 `DecodeEngine` 를 별도 프로파일링 해야 함.  
+> **배운 점** - 대형 LLM 벤치마크를 **프리필/디코드** 단계별로 측정하려면, `vllm` 의 `PrefillEngine` 과 `DecodeEngine` 를 별도 프로파일링 해야 함.  
 
 ### 6.2 `gpu-cli`  
 
 | 탐색 내용 | 핵심 포인트 |
 |----------|-------------|
 | 레포 주요 파일 | `README.md`, `src/kgpu/k8s/client.py`, `src/kgpu/tui/app.py` |
-| 기능 | Kubernetes‑GPU 모니터링, TUI 기반 CLI |
+| 기능 | Kubernetes-GPU 모니터링, TUI 기반 CLI |
 | 최근 커밋 | GPU 모니터링 파드 자동 스케줄링 로직 추가 |
-| 향후 작업 | **멀티‑GPU 리소스 할당 전략** 구현, 테스트 자동화 CI |
+| 향후 작업 | **멀티-GPU 리소스 할당 전략** 구현, 테스트 자동화 CI |
 
-> **배운 점** – `k8s` 클라이언트 코드를 탐색하면서 **CustomResourceDefinition(CRD)** 활용법과 `watch` API 로 실시간 메트릭 수집 방법을 복습했다.  
+> **배운 점** - `k8s` 클라이언트 코드를 탐색하면서 **CustomResourceDefinition(CRD)** 활용법과 `watch` API 로 실시간 메트릭 수집 방법을 복습했다.  
 
 ---  
 
@@ -313,15 +313,15 @@ git push origin main
 1. **Claude Code 기록**을 파일 구조·JSONL 포맷까지 완전 파악.  
 2. **Just the Docs + Jekyll** 기반 블로그 skeleton 을 설계하고, `_posts` 자동 생성 파이프라인 구현.  
 3. **슬래시 커맨드**와 **launchd/cron**을 연결해 매일 02:00 자동 배포 흐름 구축.  
-4. **Claude API**를 이용한 토큰‑효율적인 요약 전략 정립.  
+4. **Claude API**를 이용한 토큰-효율적인 요약 전략 정립.  
 5. `pd-disaggregation`·`gpu-cli` 두 프로젝트를 읽기 전용 모드로 탐색하고, 향후 진행 방향을 메모.  
 
 ### 다음에 할 일
 - `scripts/collect_conversations.py` 를 **시간대별**(아침·점심·저녁)로 분할하여 토큰 제한 회피.  
 - `Just the Docs` 사이드바에 **학습 주제**(AI, Kubernetes, GPU) 별 네비게이션 추가.  
 - `pd-disaggregation` 에서 **Prefill/Decode** 프로파일링 스크립트 초안 작성.  
-- `gpu-cli` 에 **멀티‑GPU 스케줄러** 설계 문서(`docs/kubernetes/gpu-schedule.md`) 작성.  
+- `gpu-cli` 에 **멀티-GPU 스케줄러** 설계 문서(`docs/kubernetes/gpu-schedule.md`) 작성.  
 
 ---  
 
-이상으로 2026‑02‑03 일일 학습 기록을 정리했습니다. 앞으로도 자동화된 기록·요약 파이프라인을 다듬어, **지식 축적을 지속적으로 블로그에 반영**하도록 하겠습니다. 🚀
+이상으로 2026-02-03 일일 학습 기록을 정리했습니다. 앞으로도 자동화된 기록·요약 파이프라인을 다듬어, **지식 축적을 지속적으로 블로그에 반영**하도록 하겠습니다. 🚀
