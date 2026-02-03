@@ -44,7 +44,7 @@ class BlogPostGenerator:
 
         self.client = OpenAI(api_key=self.api_key, base_url=self.base_url)
         self.blog_dir = Path(__file__).parent.parent
-        self.posts_dir = self.blog_dir / "_posts"
+        self.posts_dir = self.blog_dir / "docs" / "learning-records"
         self.docs_dir = self.blog_dir / "docs"
 
     def generate_post(
