@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Claude API를 사용하여 대화 내용을 블로그 글로 변환하는 스크립트
+OpenAI 호환 API를 사용하여 대화 내용을 블로그 글로 변환하는 스크립트
 """
 
 import os
@@ -9,10 +9,10 @@ from pathlib import Path
 from typing import Optional
 
 try:
-    from anthropic import Anthropic
+    from openai import OpenAI
 except ImportError:
-    print("[오류] anthropic 패키지가 설치되지 않았습니다.")
-    print("실행: pip install anthropic")
+    print("[오류] openai 패키지가 설치되지 않았습니다.")
+    print("실행: pip install openai")
     raise
 
 from dotenv import load_dotenv
@@ -26,19 +26,23 @@ load_dotenv()
 class BlogPostGenerator:
     """대화 내용을 블로그 포스트로 변환하는 클래스"""
 
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, base_url: Optional[str] = None):
         """
         Args:
-            api_key: Anthropic API 키 (없으면 환경변수에서 로드)
+            api_key: OpenAI 호환 API 키 (없으면 환경변수에서 로드)
+            base_url: API 엔드포인트 URL (없으면 환경변수에서 로드)
         """
-        self.api_key = api_key or os.environ.get('ANTHROPIC_API_KEY')
+        self.api_key = api_key or os.environ.get('OPENAI_API_KEY')
+        self.base_url = base_url or os.environ.get('OPENAI_BASE_URL')
+        self.model = os.environ.get('OPENAI_MODEL', 'gpt-4o')
+
         if not self.api_key:
             raise ValueError(
-                "ANTHROPIC_API_KEY가 설정되지 않았습니다.\n"
+                "OPENAI_API_KEY가 설정되지 않았습니다.\n"
                 "환경변수로 설정하거나 .env 파일에 추가해주세요."
             )
 
-        self.client = Anthropic(api_key=self.api_key)
+        self.client = OpenAI(api_key=self.api_key, base_url=self.base_url)
         self.blog_dir = Path(__file__).parent.parent
         self.posts_dir = self.blog_dir / "_posts"
         self.docs_dir = self.blog_dir / "docs"
@@ -84,7 +88,7 @@ YAML 프론트매터로 시작하고, 그 다음 본문 내용을 작성해주�
 layout: default
 title: "제목"
 parent: 학습 기록
-nav_order: {nav_order}
+nav_order: 1
 ---
 
 # 제목
@@ -107,15 +111,15 @@ nav_order: {nav_order}
 - 실제로 배운 내용이나 해결한 문제 위주로 정리해주세요
 """
 
-        print("[정보] Claude API로 블로그 글 생성 중...")
+        print(f"[정보] {self.model} API로 블로그 글 생성 중...")
 
-        response = self.client.messages.create(
-            model="claude-sonnet-4-5-20250929",
+        response = self.client.chat.completions.create(
+            model=self.model,
             max_tokens=8192,
             messages=[{"role": "user", "content": prompt}]
         )
 
-        return response.content[0].text
+        return response.choices[0].message.content
 
     def generate_title_and_tags(
         self,
@@ -147,15 +151,15 @@ nav_order: {nav_order}
 JSON만 출력해주세요.
 """
 
-        response = self.client.messages.create(
-            model="claude-sonnet-4-5-20250929",
+        response = self.client.chat.completions.create(
+            model=self.model,
             max_tokens=500,
             messages=[{"role": "user", "content": prompt}]
         )
 
         import json
         try:
-            result = json.loads(response.content[0].text)
+            result = json.loads(response.choices[0].message.content)
             return result.get('title', f'{target_date.strftime("%Y-%m-%d")} 학습 기록'), result.get('tags', [])
         except json.JSONDecodeError:
             return f'{target_date.strftime("%Y-%m-%d")} 학습 기록', ['til', 'claude-code']
