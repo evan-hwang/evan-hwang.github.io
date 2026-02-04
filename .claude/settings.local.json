@@ -25,7 +25,9 @@
       "Bash(gh repo edit:*)",
       "Bash(gh api:*)",
       "Bash(gh workflow run:*)",
-      "Bash(gh run list:*)"
+      "Bash(gh run list:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []
