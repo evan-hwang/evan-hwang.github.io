@@ -174,7 +174,7 @@ tags: [{topic-slug}]
 **제목**: {글 제목}
 
 **GitHub Pages URL** (배포 후):
-https://evan-hwang.github.io/feynman-studies/{slug}
+https://evan-hwang.github.io/docs/feynman-studies/{slug}
 
 수고하셨습니다!
 ```
